@@ -1,38 +1,65 @@
-Role Name
+docker_install
 =========
 
-A brief description of the role goes here.
+This will install Docker and docker-compose on Ubuntu 22.04 and add the non-root user to the `docker` group. 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires that a server be initialized with a non-root user with passwordless sudo permissions.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+`alter_user` is set via the `CREATED_USERNAME` environment variable in `vars/main.yml`. You can set this variable with:
+```
+export CREATED_USERNAME=value
+```
+or permanently set it by adding it to `~/.profile`.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependencies are required to use this role.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+This is pretty straightforward use; simply use the fully qualified collection name (FQCN) to call the role ...
+at the play level using the `roles` keyword:
+```
+---
+- hosts: all
+  roles:
+    - nonsensetwice.digitalocean.docker_install
+```
+at the task level as a dynamic import:
+```
+---
+- hosts: all
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+  tasks:
+    - name: Install Docker
+    include_role: nonsensetwice.digitalocean.docker_install
+```
+as a static import:
+```
+---
+- hosts: all
+
+  tasks:
+    - name: Install Docker
+      import_role: nonsensetwice.digitalocean.docker_install
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Written by nonsensetwice
+[GitHub](https://github.com/nonsensetwice)
+[Twitter](https://twitter.com/nonsensecodes)
