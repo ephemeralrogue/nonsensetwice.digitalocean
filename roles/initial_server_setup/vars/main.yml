@@ -1,0 +1,4 @@
+---
+# vars file for initial-server-setup
+create_user: "{{ lookup('ansible.builtin.env', 'CREATED_USERNAME') }}"
+

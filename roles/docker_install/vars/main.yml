@@ -1,0 +1,3 @@
+---
+# vars file for docker-install
+alter_user: "{{ ('ansible.builtin.env', 'CREATED_USERNAME') }}"

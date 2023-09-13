@@ -1,0 +1,11 @@
+# Initializes a new droplet with a passwordless sudo user;
+# removes password access for root;
+# installs docker and docker-compose and adds user to docker group
+# install github cli
+
+- name: Initial Server Setup and Docker and GitHub CLI install
+  hosts: all
+  roles:
+    - initial_server_setup
+    - docker_install
+    - gh_cli
