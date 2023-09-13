@@ -1,6 +1,6 @@
 # Ansible Collection - nonsensetwice.digitalocean
 
-this collection houses a set of roles and playbooks for automating the setup of servers over a set of standard Digital Ocean (DO) droplets running Ubuntu 22.04, and installing software for the development and execution of software. running it on other versions and systems may produce unexpected results.  
+this collection houses a set of roles for automating the setup of servers over a set of standard Digital Ocean (DO) droplets running Ubuntu 22.04, and installing software for the development and execution of software. running it on other versions and systems may produce unexpected results.  
   
 ## roles  
   
@@ -27,10 +27,3 @@ these can be called in a playbook by using the collection's fully-qualified coll
     - name: install docker
       nonsensetwice.digitalocean.docker_install
 ```
-
-## playbooks  
-
-there is currently one playbook available:  
-- server_docker_gh_setup  
-
-this playbook will run the `initial_server_setup`, `docker_install`, and `gh_cli` roles sequentially.  
