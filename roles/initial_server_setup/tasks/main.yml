@@ -1,0 +1,54 @@
+---
+# tasks file for initial-server-setup
+
+# Droplets lately have the annoy case where apt isn't updating properly
+# This task fixes that
+- name: Remove directory
+  file:
+    path: /var/lib/apt/lists
+    recurse: yes
+    state: directory
+
+# Update and upgrade apt packages
+- name: Update apt
+  apt:
+    name: "*"
+    state: latest
+
+# Install aptitude
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+# Create new user with passwordless sudo
+- name: Setup passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Create a new regular user with sudo privileges
+  user:
+    name: "{{ create_user }}"
+    state: present
+    groups: sudo
+    append: true
+    create_home: true
+    shell: /bin/bash
+
+- name: Set authorized key for remote user
+  ansible.posix.authorized_key:
+    user: "{{ create_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_ed25519.pub') }}"
+
+- name: Disable password authentication for root
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin prohibit-password'
